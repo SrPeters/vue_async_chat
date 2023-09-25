@@ -1,11 +1,12 @@
 <template>
-  <!-- <NavBar></NavBar> -->
   <Chat></Chat>
-  <router-view></router-view>
+  <NavBar>
+    <router-view></router-view>
+  </NavBar>
 </template>
 
 <script setup lang="ts">
-// import NavBar from './components/NavBar.vue';
+import NavBar from './components/NavBar.vue';
 import Chat from './components/Chat.vue';
 </script>
 

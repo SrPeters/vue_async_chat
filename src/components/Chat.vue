@@ -1,18 +1,24 @@
 <template>
   <div class="chat-container">
     <div 
-      class="chat-baloon" 
+      class="chat-balloon" 
       :class="{'pulse': state.msgCounter > 0}"
       @click="state.opened = !state.opened"
       :msg-counter="state.msgCounter"
     >
-      <icon icon="comment-dots"></icon>
+      <icon class="chat-icon" icon="comment-dots"></icon>
     </div>
     <div v-show="state.opened">
       <div class="chat shadow is-flex is-flex-direction-column">
         <div class="chat-header is-flex is-align-items-center pb-2">
-          <icon icon="user-circle" class="has-text-grey mr-1"></icon>
-          <span class="has-text-weight-medium">Bianca</span>
+          <div class="mr-2 is-relative user-img-container is-flex is-align-items-center">
+            <icon icon="user-circle" class="user-icon has-text-grey fs-24"></icon>
+            <div class="status-dot"></div>
+          </div>
+          <div class="is-flex is-flex-direction-column">
+            <span class="has-text-weight-medium mb-0">Bianca</span>
+            <span class="fs-10 status-text">Online</span>
+          </div>
         </div>
         <div class="chat-body is-flex-grow-1">
           <div class="messages">
@@ -81,13 +87,18 @@ function sendMessage() {
   position: fixed;
   bottom: 20px;
   right: 30px;
+  z-index: 1000;
 
-  & .chat-baloon {
+  & .chat-balloon {
     position: relative;
     font-size: 30px;
     color: var(--link);
     cursor: pointer;
     z-index: 1;
+
+    & .chat-icon {
+      z-index: 2;
+    }
 
     &::after {
       content: attr(msg-counter);
@@ -115,7 +126,7 @@ function sendMessage() {
       transform: translate(-50%, -50%);
       border-radius: 50%;
       z-index: -1;
-      background-color: var(--link);
+      background-color: hsl(217, 100%, 78%);
       animation-name: pulse;
       animation-duration: 1s;
       animation-iteration-count: infinite;
@@ -130,11 +141,46 @@ function sendMessage() {
     height: 400px;
     border-radius: 6px;
     border: 1px solid rgb(240, 240, 240);
+    background-color: white;
     padding: 8px;
     font-size: 14px;
+    z-index: 2;
 
     &-header {
       border-bottom: 1px solid rgb(235, 235, 235);
+
+      & .status-text {
+        line-height: 8px;
+      }
+
+      & .user-img-container {
+
+        &::before {
+          content: '';
+          border: 4px solid rgb(110, 110, 110);
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          position: absolute;
+          z-index: -1;
+        }
+      }
+
+      & .user-icon {
+        border: 0.07em solid rgb(110, 110, 110);
+        border-radius: 50%;
+      }
+
+      & .status-dot {
+        position: absolute;
+        bottom: -1px;
+        right: -1px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: 0.09em solid rgb(110, 110, 110);
+        background-color: var(--success);
+      }
     }
 
     &-body {
